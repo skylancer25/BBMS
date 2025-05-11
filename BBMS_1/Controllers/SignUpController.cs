@@ -40,6 +40,7 @@ namespace BBMS_1.Controllers
                     {
                         ViewBag.Message = "Email already registered.";
                         return View(model);
+                        //added comment to test commits
                     }
 
                     // Insert new user

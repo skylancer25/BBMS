@@ -1,0 +1,131 @@
+﻿<div class="card p-4 shadow-lg">
+    <h4 class="text-center">Blood Request</h4>
+    <hr>
+    <p>Need blood? Submit a request below.</p>
+
+    <form id="bloodRequestForm">
+        <div class="mb-3">
+            <label class="form-label">Required Blood Group</label>
+            <select name="RequiredBloodGroup" class="form-select" required>
+                <option value="">-- Select Blood Group --</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Additional Details</label>
+            <textarea name="AdditionalDetails" class="form-control" placeholder="Any additional info..." rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn w-100" style="background-color: #1E3A8A; color: white;">Submit Blood Request</button>
+    </form>
+
+    <div id="successMessage" class="alert alert-success mt-3 d-none">
+        Blood Request Submitted Successfully!
+    </div>
+</div>
+
+<div class="card p-4 shadow-lg mt-5">
+    <h4 class="text-center">My Previous Blood Requests</h4>
+    <hr>
+
+    <div id="bloodRequestsTable">
+        @if (Model.BloodRequests != null && Model.BloodRequests.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Blood Group</th>
+                            <th>Additional Details</th>
+                            <th>Request Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.BloodRequests)
+                        {
+                            <tr>
+                                <td>@request.Id</td>
+                                <td>@request.BloodGroup</td>
+                                <td>@request.AdditionalDetails</td>
+                                <td>@request.RequestDate.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    @if (request.Status == "Pending")
+                                    {
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    }
+                                    else if (request.Status == "Approved")
+                                    {
+                                        <span class="badge bg-primary">Approved</span>
+                                    }
+                                    else if (request.Status == "Fulfilled")
+                                    {
+                                        <span class="badge bg-success">Fulfilled</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Unknown</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted text-center">No blood requests made yet.</p>
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById('bloodRequestForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Stop normal form submission
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch('/BloodRequest/Create', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // Show success message
+                document.getElementById('successMessage').classList.remove('d-none');
+
+                // Clear the form
+                this.reset();
+
+                // Reload the blood request history table only
+                await reloadBloodRequestsTable();
+            } else {
+                alert('Error submitting blood request.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error submitting blood request.');
+        }
+    });
+
+    async function reloadBloodRequestsTable() {
+        try {
+            const response = await fetch('/User/GetBloodRequests');
+            const html = await response.text();
+            document.getElementById('bloodRequestsTable').innerHTML = html;
+        } catch (error) {
+            console.error('Failed to reload blood requests table:', error);
+        }
+    }
+</script>

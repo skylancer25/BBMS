@@ -1,0 +1,18 @@
+﻿@model BBMS_1.Models.BloodRequestModel
+
+@{
+    ViewData["Title"] = "Blood Request Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Request Details</h5>
+        <p><strong>Patient Name:</strong> @Model.PatientName</p>
+        <p><strong>Blood Group:</strong> @Model.RequiredBloodGroup</p>
+        <p><strong>Additional Details:</strong> @Model.AdditionalDetails</p>
+        <p><strong>Request Date:</strong> @Model.RequestDate</p>
+        <p><strong>Status:</strong> @Model.Status</p>
+    </div>
+</div>

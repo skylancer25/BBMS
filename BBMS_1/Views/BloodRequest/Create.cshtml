@@ -1,0 +1,26 @@
+﻿@model BBMS_1.Models.BloodRequestModel
+
+@{
+    ViewData["Title"] = "Submit Blood Request";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="BloodGroup">Blood Group</label>
+        <input type="text" class="form-control" id="BloodGroup" name="BloodGroup" placeholder="Enter required blood group" required />
+    </div>
+    <div class="form-group">
+        <label for="AdditionalDetails">Additional Details</label>
+        <textarea class="form-control" id="AdditionalDetails" name="AdditionalDetails" placeholder="Any extra details (optional)"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Message"]
+    </div>
+}

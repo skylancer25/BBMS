@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BBMS_1.Models.BloodRequestModel>
+
+<h2>Blood Requests</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Blood Group</th>
+                <th>Additional Details</th>
+                <th>Date Requested</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.RequiredBloodGroup</td>
+                    <td>@request.AdditionalDetails</td>
+                   @*  <td>@request.DateRequested</td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No blood requests found.</p>
+}
+
+<a href="@Url.Action("Create", "BloodRequest")" class="btn btn-primary">Request Blood</a>

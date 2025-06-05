@@ -37,6 +37,7 @@ namespace BBMS_1.Controllers
                     userModel.blood_grp = reader["blood_grp_name"].ToString();
                     userModel.Address = reader["user_address"].ToString();
                     userModel.Pincode = reader["pincode"].ToString();  // Fetch Pincode
+                    userModel.usertype = reader["user_type"].ToString(); // Fetch user type
                 }
             }
 

@@ -18,10 +18,11 @@ namespace BBMS_1.Models
 
         //public string password { get; set; }
 
-            public string Address { get; set; }
-            public string Pincode { get; set; } // Pincode instead of Latitude/Longitude
-        
-    
+        public string Address { get; set; }
+        public string Pincode { get; set; } // Pincode instead of Latitude/Longitude
 
-}
+        public string usertype { get; set; } // values: "donor" or "patient"
+
+
+    }
 }
